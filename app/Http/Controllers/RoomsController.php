@@ -63,6 +63,7 @@ class RoomsController extends Controller
      */
     public function getRoom($roomId)
     {
+        $roomId = $this->formatRoomNumber($roomId);
         $room = Room::where('room', $roomId)->first();
         if($room != null){
             if($room->longitude != null){
@@ -112,5 +113,59 @@ class RoomsController extends Controller
         );
 
         return $response;
+    }
+
+    /*
+     * Prepends 1 or more zeroes to a number.
+     * @param string|int $num - The number to which you want to prepend zeroes
+     * @param int $count    - (optional) How many zeroes you would like to prepend. Defaults to 1.
+     */
+    private function prependZeroes($num, $count=1) {
+        for ($i = 0; $i < $count; $i++) {
+            $num = '0' . $num;
+        }
+        return $num;
+    }
+
+    private function formatRoomNumber($room) {
+        $room = strtoupper($room);
+
+        // The number of digits a room has, according to the database.
+        $desiredNumberOfDigits = 4;
+
+        // This is the regex to which all room numbers should conform before hitting the database.
+        // The x flag allows commentsin regex.
+        $desiredFormat = "/
+                            [A-Z]{2}                                # This matches the 2-letter Building code.
+                            [0-9]{1,$desiredNumberOfDigits}         # This matches the number part.
+                            [A-Z]?$                                 # This matches an optional office-letter suffix.
+                         /x";
+
+        // A callback to a regex that matches a string of digits.
+        $insertNeededZeroesCallback = function($matches) use ($desiredNumberOfDigits) {
+            //Match holds the 2210 in JD2210
+            $match = $matches[0];
+            $numberOfNeededZeroes = $desiredNumberOfDigits - strlen($match);
+            return $this->prependZeroes($match, $numberOfNeededZeroes);
+        };
+
+        // A callback to a regex that matches a valid room format.
+        $ensureProperFormatCallback = function($matches) use($desiredNumberOfDigits, $insertNeededZeroesCallback) {
+            $match = $matches[0];
+            $replacement = preg_replace_callback(
+                "/[0-9]{1,$desiredNumberOfDigits}/",
+                $insertNeededZeroesCallback,
+                $match
+            );
+            return $replacement;
+        };
+
+        // Perform the actual formatting of the string.
+        $room = preg_replace_callback(
+            $desiredFormat,
+            $ensureProperFormatCallback,
+            $room
+        );
+        return $room;
     }
 }
