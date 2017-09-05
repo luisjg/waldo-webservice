@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Waldo Web Service</title>
-    <meta name="description" content="A Web Service that delivers information on faculty engagement">
+    <meta name="description" content="A Web Service that delivers information on CSUN rooms">
     <link rel="icon" href="//www.csun.edu/sites/default/themes/csun/favicon.ico" type="image/x-icon">
     <script src="//use.typekit.net/gfb2mjm.js"></script>
     <script>try{Typekit.load();}catch(e){}</script>
@@ -37,7 +37,7 @@
 
             <div class="col-md-9">
                 <h2 id="introduction" class="type--header type--thin">Introduction</h2>
-                <p>The Waldo web service retrieves CSUN class room information.</p>
+                <p>The Waldo web service retrieves CSUN room information.</p>
                     {{--This information is derived from the Research and Graduate Studies and faculty submited information --}}
                     {{--using <a href="">Scholarships</a>. The web service provides a gateway to access the information via --}}
                     {{--a REST-ful API. The information is retrieved by creating a specific URI and giving values to filter --}}
@@ -45,30 +45,17 @@
                     {{--badges attached to a particular member; the format of the JSON object is as follows:</p>--}}
 
         <pre class="prettyprint"><code>{
+  "status": "200",
   "success": "true",
-  "status": 200,
-  "api": "affinity",
-  "version": "1.0",
-  "collection": "badges",
-  "count": 2,
-  "badges": [
-    {
-      "name": "Probationary Faculty Grant",
-      "issuer": "Faculty Development",
-      "url_image": "https://cdn.metalab.csun.edu/badges/FacDev.png",
-      "url_web": "http://www.csun.edu/undergraduate-studies/faculty-development/probationary-faculty-support-program",
-      "award_date": "2014"
-    },
-    {
-      "name": "Teaching Conference Grant",
-      "issuer": "Faculty Development",
-      "url_image": "https://cdn.metalab.csun.edu/badges/FacDev.png",
-      "url_web": "http://www.csun.edu/undergraduate-studies/faculty-development/competition-attending-teaching-conference",
-      "award_date": "Fall 2015"
-    }
-  ]
+  "collection": "room",
+  "room": {
+    "room_number": "JD2211",
+    "building_name": "Jacaranda Hall",
+    "latitude": 34.24141145,
+    "longitude": -118.529299945
+  }
+}
 }</code></pre>
-                </div>
                 <br>
                 <h2 id="getting-started" class="type--header type--thin">Getting Started</h2>
                 <ol>
@@ -85,7 +72,7 @@
                 </ul>
                 <br>
                 <h2 id="subcollections" class="type--header type--thin">Subcollections</h2>
-                <strong>Specified person's Badges</strong>
+                <strong>Specific Room retrieval</strong>
                 <ul>
                     <li>
                         <a href="{{url('api/1.0/rooms?room=JD2211')}}">
