@@ -78,14 +78,13 @@ class RoomsController extends Controller
                     //   http://beta.ngs.noaa.gov/gtkweb/
                     //   http://beta.ngs.noaa.gov/gtkws/geo?northing=76470.584 &easting=407886.482&zone=3702
 
-                    $request = $client->get(env('GIS_WEB_SERVICE_URL') . "/geo?northing=" . $roomY . "&easting=" . $roomX . "&zone=0405 &units=usft");
+                    // new url
+                    $request = $client->get(env('GIS_WEB_SERVICE_URL') . "/spc?spcZone=0405&inDatum=nad83(NSRS2007)&outDatum=nad83(2011)&northing=" . $roomY . "&easting=" . $roomX . "&zone=0405 &units=usft");
 
                     $point = $request->json();
                     $lon = $point['lon'];
                     $lat = $point['lat'];
 
-                    $room = Room::where('room', $room->room);
-//                    $room->update(['longitude' => $lon, 'latitude' => $lat, 'updated_at' => (DB::raw('CURRENT_TIMESTAMP'))]);
                     $room->update([
                         'longitude' => $lon,
                         'latitude' => $lat
@@ -93,7 +92,13 @@ class RoomsController extends Controller
                     $room->touch();
                     $room->save();
                 }catch(\GuzzleHttp\Exception\RequestException $e){
-                    return [];
+                    return array(
+                        'status'    => '200',
+                        'success'   => 'false',
+                        'errors'    => array(
+                            'message'	=> 'An error occurred'
+                        )
+                    );
                 }
 
             }
