@@ -138,7 +138,8 @@ class RoomsController extends Controller
         $desiredFormat = "/
                             [A-Z]+                               # This matches the 2-letter Building code.
                             [0-9]{1,$desiredNumberOfDigits}      # This matches the number part.
-                            [A-Z0-9]*$                           # This matches an optional office-letter suffix.
+                            ([A-Z]?                              # This matches the optional office-letter suffix.
+                            [A-Z0-9]*)$                          # This matches the optional alphanumeric suffix that some rooms have.
                          /x";
 
         // A callback to a regex that matches a string of digits.
