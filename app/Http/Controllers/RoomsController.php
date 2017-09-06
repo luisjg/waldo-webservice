@@ -136,9 +136,9 @@ class RoomsController extends Controller
         // This is the regex to which all room numbers should conform before hitting the database.
         // The x flag allows commentsin regex.
         $desiredFormat = "/
-                            [A-Z]{2}                                # This matches the 2-letter Building code.
-                            [0-9]{1,$desiredNumberOfDigits}         # This matches the number part.
-                            [A-Z]?$                                 # This matches an optional office-letter suffix.
+                            [A-Z]+                               # This matches the 2-letter Building code.
+                            [0-9]{1,$desiredNumberOfDigits}      # This matches the number part.
+                            [A-Z0-9]*$                           # This matches an optional office-letter suffix.
                          /x";
 
         // A callback to a regex that matches a string of digits.
