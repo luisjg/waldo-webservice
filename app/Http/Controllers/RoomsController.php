@@ -63,8 +63,10 @@ class RoomsController extends Controller
      */
     public function getRoom($roomId)
     {
-        $roomId = $this->formatRoomNumber($roomId);
-        $room = Room::where('room', $roomId)->first();
+        $formattedRoomId = $this->formatRoomNumber($roomId);
+        $room = Room::where('room', $roomId)
+                    ->orWhere('room', $formattedRoomId)
+                    ->first();
         if($room != null){
             if($room->longitude != null){
                 $lon = $room->longitude;
@@ -127,19 +129,29 @@ class RoomsController extends Controller
         return $num;
     }
 
+    /**
+     * For some rooms like SH 173, they are stored in the database with 4-digit numbers by prepending zeros.
+     * However, some rooms  like UV00D8 are stared as 2-digits. Keep that in mind when using this method to help query
+     * the database. This also removes whitespace in the name.
+     * @param $room - Un-formatted Room with  less than 4 digits (ex:  "SH 175").
+     * @return mixed|string  - The formatted room string with 4 digits and no spaces (ex: "SH0175") ready for querying.
+     */
     private function formatRoomNumber($room) {
-        $room = strtoupper($room);
+        // Remove whitespace and case.
+        $room = preg_replace('/\s/','',strtoupper($room));
 
         // The number of digits a room has, according to the database.
         $desiredNumberOfDigits = 4;
 
         // This is the regex to which all room numbers should conform before hitting the database.
-        // The x flag allows commentsin regex.
+        // The x flag allows comments in regex.
         $desiredFormat = "/
                             [A-Z]+                               # This matches the 2-letter Building code.
-                            [0-9]{1,$desiredNumberOfDigits}      # This matches the number part.
-                            ([A-Z]?                              # This matches the optional office-letter suffix.
-                            [A-Z0-9]*)$                          # This matches the optional alphanumeric suffix that some rooms have.
+                            [0-9]{1,$desiredNumberOfDigits}       # This matches the number part.
+                            (                                    # This group matches the optional alphanumeric suffix.
+                                [A-Z]                            # It must start with a letter to be distinguishable.
+                                [A-Z0-9]*                        # May contain a mix of numbers and letters.
+                            )?                                   # Let it be optional.
                          /x";
 
         // A callback to a regex that matches a string of digits.
