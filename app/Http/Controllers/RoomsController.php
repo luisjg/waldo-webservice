@@ -48,11 +48,9 @@ class RoomsController extends Controller
     public function getAllRooms()
     {
         $rooms = Room::all();
-        $successResponse = buildResponseArray('rooms', true, 200, 1.0);
-        $successResponse['count'] = count($rooms);
-        $successResponse['rooms'] = $rooms;
+        $successResponse = buildResponseHeader('rooms', true, 200, 1.0);
+        $successResponse = appendRoomResponseContent($successResponse, $rooms);
         return $this->sendSuccessJSONResponse($successResponse);
-
     }
 
     /**

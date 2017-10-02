@@ -1,6 +1,6 @@
 <?php
 
-function buildResponseArray($collection, $success, $status_code, $version)
+function buildResponseHeader($collection, $success, $status_code, $version)
 {
     return $response = [
             'success' => ($success ? "true" : "false"),
@@ -9,5 +9,14 @@ function buildResponseArray($collection, $success, $status_code, $version)
             'version' => number_format($version,1),
             'collection' => $collection
     ];
+}
+
+function appendRoomResponseContent($response, $roomData)
+{
+        return $response += [
+            'count' => count($roomData),
+            'rooms' => $roomData
+        ];
+
 }
 
