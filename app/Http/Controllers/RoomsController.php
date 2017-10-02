@@ -54,7 +54,10 @@ class RoomsController extends Controller
 ////            'count'       => count($rooms),
 //            'rooms'       => $rooms
 //        );
-        $successResponse = $sendSuccessJSONResponse;
+        //Build a successful response
+        //This returns the final json
+        $successResponse = $sendSuccessJSONResponse($rooms);
+
     }
 
     /**
