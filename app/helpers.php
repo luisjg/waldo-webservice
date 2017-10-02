@@ -3,10 +3,11 @@
 function buildResponseArray($collection, $success, $status_code, $version)
 {
     return $response = [
-            'success' => strval($success),
+            'success' => ($success ? "true" : "false"),
             'status' => strval($status_code),
             'api' => 'Waldo',
-            'version' => strval($version)
+            'version' => number_format($version,1),
+            'collection' => $collection
     ];
 }
 

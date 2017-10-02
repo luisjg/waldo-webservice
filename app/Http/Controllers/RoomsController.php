@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RoomsController extends Controller
 {
@@ -54,9 +55,8 @@ class RoomsController extends Controller
 ////            'count'       => count($rooms),
 //            'rooms'       => $rooms
 //        );
-        //Build a successful response
-        //This returns the final json
-        $successResponse = $sendSuccessJSONResponse($rooms);
+        $successResponse = buildResponseArray('rooms', true, 200, 1.0);
+        return $this->sendSuccessJSONResponse($successResponse);
 
     }
 
