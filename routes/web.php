@@ -12,7 +12,6 @@
 */
 
 $app->get('/', 'RoomsController@index');
-$app->get('/getAllRooms', 'RoomsController@getAllRooms');
 
 $app->group(['prefix' => 'api/1.0'], function() use ($app) {
     $app->get('/rooms', 'RoomsController@handleRequest');
