@@ -47,13 +47,14 @@ class RoomsController extends Controller
     public function getAllRooms()
     {
         $rooms = Room::all();
-        return array(
-            'status'      => '200',
-            'success'     => 'false',
-            'collection'  => 'rooms',
-//            'count'       => count($rooms),
-            'rooms'       => $rooms
-        );
+//        return array(
+//            'status'      => '200',
+//            'success'     => 'false',
+//            'collection'  => 'rooms',
+////            'count'       => count($rooms),
+//            'rooms'       => $rooms
+//        );
+        $successResponse = $sendSuccessJSONResponse;
     }
 
     /**
