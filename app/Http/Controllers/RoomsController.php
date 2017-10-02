@@ -49,7 +49,7 @@ class RoomsController extends Controller
     {
         $rooms = Room::all();
         $successResponse = buildResponseHeader('rooms', true, 200, 1.0);
-        $successResponse = appendRoomResponseContent($successResponse, $rooms);
+        $successResponse = appendResponseWithRoomInfo($successResponse, $rooms);
         return $this->sendSuccessJSONResponse($successResponse);
     }
 

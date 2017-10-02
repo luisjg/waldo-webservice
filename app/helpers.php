@@ -11,7 +11,7 @@ function buildResponseHeader($collection, $success, $status_code, $version)
     ];
 }
 
-function appendRoomResponseContent($response, $roomData)
+function appendResponseWithRoomInfo($response, $roomData)
 {
         return $response += [
             'count' => count($roomData),
