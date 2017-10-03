@@ -31,7 +31,7 @@ class RoomsController extends Controller
             return $this->getAllRooms();
         } else {
             return array(
-                'status'    => '200',
+                'status'    => '400',
                 'success'   => 'false',
                 'errors'    => array(
                     'message'	=> 'An error occurred'
