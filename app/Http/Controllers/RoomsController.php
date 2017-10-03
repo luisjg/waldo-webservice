@@ -31,7 +31,7 @@ class RoomsController extends Controller
             return $this->getAllRooms();
         } else {
             return array(
-                'status'    => '200',
+                'status'    => '400',
                 'success'   => 'false',
                 'errors'    => array(
                     'message'	=> 'An error occurred'
@@ -49,9 +49,8 @@ class RoomsController extends Controller
         $rooms = Room::all();
         return array(
             'status'      => '200',
-            'success'     => 'false',
+            'success'     => 'true',
             'collection'  => 'rooms',
-//            'count'       => count($rooms),
             'rooms'       => $rooms
         );
     }
@@ -96,7 +95,7 @@ class RoomsController extends Controller
                     $room->save();
                 }catch(\GuzzleHttp\Exception\RequestException $e){
                     return array(
-                        'status'    => '200',
+                        'status'    => '400',
                         'success'   => 'false',
                         'errors'    => array(
                             'message'	=> 'An error occurred'
