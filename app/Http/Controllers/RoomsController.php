@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RoomsController extends Controller
 {
@@ -25,18 +26,13 @@ class RoomsController extends Controller
      */
     public function handleRequest(Request $request)
     {
-        if($request->has('room')) {
-            return $this->getRoom($request->get('room'));
-        } else if(is_null($request->getQueryString())) {
+        if(is_null($request->getQueryString())){
             return $this->getAllRooms();
+        }else if($request->has('room')){
+            return $this->getRoom($request->get('room'));
         } else {
-            return array(
-                'status'    => '400',
-                'success'   => 'false',
-                'errors'    => array(
-                    'message'	=> 'An error occurred'
-                )
-            );
+            $header = buildResponseHeaderArray(400, false);
+            return appendErrorDataToResponseHeader($header);
         }
     }
 
@@ -46,13 +42,9 @@ class RoomsController extends Controller
      */
     public function getAllRooms()
     {
-        $rooms = Room::all();
-        return array(
-            'status'      => '200',
-            'success'     => 'true',
-            'collection'  => 'rooms',
-            'rooms'       => $rooms
-        );
+        $roomData = Room::all();
+        $header = buildResponseHeaderArray(200, true);
+        return appendRoomDataToResponseHeader($header, 'rooms', $roomData);
     }
 
     /**
