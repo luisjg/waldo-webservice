@@ -1,11 +1,11 @@
 <?php
 
-function buildRoomHeaderArray()
+function buildHeaderArray($collection)
 {
     return $response = [
-            'success'    => ($success ? "true" : "false"),
-            'status'     => strval($status_code),
-            'collection' => $collection
+            'status'      => '200',
+            'success'     => 'true',
+            'collection'  => $collection,
     ];
 }
 

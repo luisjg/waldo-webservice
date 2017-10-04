@@ -48,7 +48,7 @@ class RoomsController extends Controller
     public function getAllRooms()
     {
         $rooms = Room::all();
-        return buildRoomHeaderArray();
+        $responseArray = buildHeaderArray('rooms');
     }
 
     /**
