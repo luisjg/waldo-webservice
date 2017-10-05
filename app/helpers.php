@@ -34,4 +34,5 @@ function appendErrorDataToResponseHeader($headerArray){
     return $headerArray += [
         'errors' => 'An error has occured'
     ];
+
 }
