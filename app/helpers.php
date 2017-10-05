@@ -32,7 +32,7 @@ function appendRoomDataToResponseHeader($headerArray, $collectionName, $collecti
  */
 function appendErrorDataToResponseHeader($headerArray){
     return $headerArray += [
-        'errors' => 'An error has occured'
+        'errors' => 'An error has occurred'
     ];
 
 }

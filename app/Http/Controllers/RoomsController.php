@@ -86,31 +86,22 @@ class RoomsController extends Controller
                     $room->touch();
                     $room->save();
                 }catch(\GuzzleHttp\Exception\RequestException $e){
-                    return array(
-                        'status'    => '400',
-                        'success'   => 'false',
-                        'errors'    => array(
-                            'message'	=> 'An error occurred'
-                        )
-                    );
+                    $header = buildResponseHeaderArray(400, false);
+                    return appendErrorDataToResponseHeader($header);
                 }
 
             }
         }
-        $response = array(
-            'status'		  => $room == null ? '404' : '200',
-            'success'		  => $room == null ? 'false' : 'true',
-            'collection'      => 'room',
-//            'count'           => $room->count(),
-            'room'			  => $room == null ? array() : array(
+        $response = buildResponseHeaderArray($room == null ? '404' : '200',$room == null ? 'false' : 'true');
+        return appendRoomDataToResponseHeader(
+            $response,
+            'room',
+            $room == null ? array() : array(
                 'room_number'	  => $room->room,
                 'building_name'	  => $room->building_name,
                 'latitude'        => $lat,
                 'longitude'		  => $lon
-            )
-        );
-
-        return $response;
+            ));
     }
 
     /*
