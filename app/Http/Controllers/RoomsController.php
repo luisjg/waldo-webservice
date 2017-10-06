@@ -78,7 +78,7 @@ class RoomsController extends Controller
                 }
             }
         }
-        $response = buildResponseHeaderArray($room == null ? '404' : '200',$room == null ? 'false' : 'true');
+        $response = buildResponseHeaderArray($room == null ? '404' : '200',$room == null ? false : true);
         if($room==null)
         {
             return appendErrorDataToResponseHeader($response);
