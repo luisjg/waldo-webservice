@@ -55,7 +55,7 @@ class RoomsController extends Controller
     public function getRoom($roomId)
     {
         $formattedRoomId = $this->formatRoomNumber($roomId);
-        $room = Room::getRoom($roomId,$formattedRoomId);
+        $room = Room::getRoom($roomId,$formattedRoomId)->first();
         if($room != null){
             if($room->longitude != null){
                 $lon = $room->longitude;
@@ -79,6 +79,10 @@ class RoomsController extends Controller
             }
         }
         $response = buildResponseHeaderArray($room == null ? '404' : '200',$room == null ? 'false' : 'true');
+        if($room==null)
+        {
+            return appendErrorDataToResponseHeader($response);
+        }
         return appendRoomDataToResponseHeader(
             $response,
             'room',

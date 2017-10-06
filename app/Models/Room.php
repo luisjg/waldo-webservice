@@ -12,7 +12,6 @@ class Room extends Model
 
     public function scopeGetRoom($query,$roomId,$formattedRoomId){
         return $query->where('room', $roomId)
-            ->orWhere('room', $formattedRoomId)
-            ->first();
+            ->orWhere('room', $formattedRoomId);
     }
 }

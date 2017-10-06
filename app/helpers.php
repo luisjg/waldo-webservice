@@ -8,7 +8,7 @@ function buildResponseHeaderArray($statusCode, $successBool)
 {
     return $response =[
         'status' => strval($statusCode),
-        'success' => ($successBool ? 'true' : 'false'),
+        'success' => ($successBool),
     ];
 }
 
