@@ -18,7 +18,7 @@
 <div class="section section--sm">
     <div class="container type--center">
         <h1 class="giga type--thin">Waldo Web Service</h1>
-        <h3 class="h1 type--thin type--gray">Delivering CSUN Room information</h3>
+        <h3 class="h1 type--thin type--gray">Delivering CSUN Room Location Information</h3>
     </div>
 </div>
 
@@ -26,24 +26,25 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <p class="header--sm"><strong>Documentation</strong></p>
+                <a class="header--sm" href="{{ url('/') }}"><strong>DOCUMENTATION</strong></a>
                 <ul class="nav">
                     <li class="nav__item"><a class="nav__link" href="#introduction">Introduction</a></li>
                     <li class="nav__item"><a class="nav__link" href="#getting-started">Getting Started</a></li>
                     <li class="nav__item"><a class="nav__link" href="#collections">Collections</a></li>
                     <li class="nav__item"><a class="nav__link" href="#subcollections">Subcollections</a></li>
                 </ul>
+                <a class="header--sm" href="{{ url('/about/version-history') }}"><strong>VERSION HISTORY</strong></a>
             </div>
 
             <div class="col-md-9">
                 <h2 id="introduction" class="type--header type--thin">Introduction</h2>
-                <p>The Waldo web service retrieves CSUN room location information.</p>
-                    {{--This information is derived from the Research and Graduate Studies and faculty submited information --}}
-                    {{--using <a href="">Scholarships</a>. The web service provides a gateway to access the information via --}}
-                    {{--a REST-ful API. The information is retrieved by creating a specific URI and giving values to filter --}}
-                    {{--the data. The information that is returned is a JSON object that contains a set of interest or --}}
-                    {{--badges attached to a particular member; the format of the JSON object is as follows:</p>--}}
-
+                <p>
+                    The information is derived from the Facilities Database maintained by Admin and Finance IT.
+                    The web service provides a gateway via a REST-ful API. The information is retrieved by
+                    creating a specific URI and giving values to filter the data. The information that is
+                    returned is a JSON object that contains room location information to a particular room;
+                    the format of the JSON object is as follows:
+                </p>
         <pre class="prettyprint"><code>{
   "status": "200",
   "success": "true",
@@ -54,6 +55,7 @@
     "latitude": 34.24141145,
     "longitude": -118.529299945
   }
+}
 }</code></pre>
                 <br>
                 <h2 id="getting-started" class="type--header type--thin">Getting Started</h2>
