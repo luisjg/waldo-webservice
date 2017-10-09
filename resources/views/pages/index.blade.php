@@ -55,7 +55,6 @@
     "latitude": 34.24141145,
     "longitude": -118.529299945
   }
-}
 }</code></pre>
                 <br>
                 <h2 id="getting-started" class="type--header type--thin">Getting Started</h2>
