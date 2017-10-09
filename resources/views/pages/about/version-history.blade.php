@@ -22,69 +22,33 @@
     </div>
 </div>
 
-<div class="section">
+<div class="section" style="min-height: calc(100vh - 130px);">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <a class="header--sm" href="{{ url('/') }}"><strong>DOCUMENTATION</strong></a>
                 <ul class="nav">
-                    <li class="nav__item"><a class="nav__link" href="#introduction">Introduction</a></li>
-                    <li class="nav__item"><a class="nav__link" href="#getting-started">Getting Started</a></li>
-                    <li class="nav__item"><a class="nav__link" href="#collections">Collections</a></li>
-                    <li class="nav__item"><a class="nav__link" href="#subcollections">Subcollections</a></li>
+                    <li class="nav__item"><a class="nav__link" href="{{ url('/#introduction')}}">Introduction</a></li>
+                    <li class="nav__item"><a class="nav__link" href="{{ url('/#getting-started')}}">Getting Started</a></li>
+                    <li class="nav__item"><a class="nav__link" href="{{ url('/#collections')}}">Collections</a></li>
+                    <li class="nav__item"><a class="nav__link" href="{{ url('/#subcollections')}}">Subcollections</a></li>
                 </ul>
                 <a class="header--sm" href="{{ url('/about/version-history') }}"><strong>VERSION HISTORY</strong></a>
             </div>
 
             <div class="col-md-9">
-                <h2 id="introduction" class="type--header type--thin">Introduction</h2>
+                <h2 class="type--header type--thin">Version History</h2>
+                <h2>Waldo 1.0 <small>Release Date: 10/09/17</small></h2>
                 <p>
-                    The information is derived from the Facilities Database maintained by Admin and Finance IT.
-                    The web service provides a gateway via a REST-ful API. The information is retrieved by
-                    creating a specific URI and giving values to filter the data. The information that is
-                    returned is a JSON object that contains room location information to a particular room;
-                    the format of the JSON object is as follows:
-                </p>
-        <pre class="prettyprint"><code>{
-  "status": "200",
-  "success": "true",
-  "collection": "room",
-  "room": {
-    "room_number": "JD2211",
-    "building_name": "Jacaranda Hall",
-    "latitude": 34.24141145,
-    "longitude": -118.529299945
-  }
-}</code></pre>
-                <br>
-                <h2 id="getting-started" class="type--header type--thin">Getting Started</h2>
+                    <strong>New Features:</strong>
                 <ol>
-                    <li><strong>GENERATE THE URI:</strong> Find the usage that fits your need. Browse through subcollections, instances and query types to help you craft your URI.</li>
-                    <li><strong>PROVIDE THE DATA:</strong> Use the URI to query your data. See the Usage Example session.</li>
-                    <li><strong>SHOW THE RESULTS</strong></li>
+                    <li>Ability to retrieve room location information.</li>
                 </ol>
-                <p>Loop through the data to display its information. See the Usage Example session.</p>
-                <br>
-                <h2 id="collections" class="type--header type--thin">Collections</h2>
-                <strong>All Rooms Listing</strong>
-                <ul>
-                    <li><a href="{{url('api/1.0/rooms')}}">{{url('api/1.0/rooms')}}</a></li>
-                </ul>
-                <br>
-                <h2 id="subcollections" class="type--header type--thin">Subcollections</h2>
-                <strong>Specific Room retrieval</strong>
-                <ul>
-                    <li>
-                        <a href="{{url('api/1.0/rooms?room=JD2211')}}">
-                            {{url('api/1.0/rooms?room=JD2211')}}
-                        </a>
-                    </li>
-                </ul>
+                </p>
             </div>
         </div>
     </div>
 </div>
-
 <div class="metalab-footer">
     <div class="metalab-wrapper">
         <div class="container">
@@ -107,8 +71,7 @@
     </div>
 </div>
 
-<script src="{{ url('js/metaphor.js') }}"></script>
-<script src="{{ url('js/run_prettify.js') }}"></script>
+
 <!--
   __  __   ___   _____     _
  |  \/  | | __| |_   _|   /_\       Explore Learn Go Beyond
