@@ -37,7 +37,7 @@
 
             <div class="col-md-9">
                 <h2 id="introduction" class="type--header type--thin">Introduction</h2>
-                <p>The Waldo web service retrieves CSUN room information.</p>
+                <p>The Waldo web service retrieves CSUN room location information.</p>
                     {{--This information is derived from the Research and Graduate Studies and faculty submited information --}}
                     {{--using <a href="">Scholarships</a>. The web service provides a gateway to access the information via --}}
                     {{--a REST-ful API. The information is retrieved by creating a specific URI and giving values to filter --}}
@@ -54,7 +54,6 @@
     "latitude": 34.24141145,
     "longitude": -118.529299945
   }
-}
 }</code></pre>
                 <br>
                 <h2 id="getting-started" class="type--header type--thin">Getting Started</h2>
