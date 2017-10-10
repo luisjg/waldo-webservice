@@ -55,30 +55,17 @@ class RoomsController extends Controller
     public function getRoom($roomId)
     {
         $formattedRoomId = $this->formatRoomNumber($roomId);
-        $room = Room::where('room', $roomId)
-                    ->orWhere('room', $formattedRoomId)
-                    ->first();
+        $room = Room::getRoom($roomId,$formattedRoomId)->first();
         if($room != null){
             if($room->longitude != null){
                 $lon = $room->longitude;
                 $lat = $room->latitude;
             }
             else{
-                $client = new \GuzzleHttp\Client();
-                $roomX = $room->x_coordinate;
-                $roomY = $room->y_coordinate;
-                // This is a fallback
                 try{
-                    //   http://beta.ngs.noaa.gov/gtkweb/
-                    //   http://beta.ngs.noaa.gov/gtkws/geo?northing=76470.584 &easting=407886.482&zone=3702
-
-                    // new url
-                    $request = $client->get(env('GIS_WEB_SERVICE_URL') . "/spc?spcZone=0405&inDatum=nad83(NSRS2007)&outDatum=nad83(2011)&northing=" . $roomY . "&easting=" . $roomX . "&zone=0405 &units=usft");
-
-                    $point = $request->json();
+                    $point = $this->getPointOnMap($room->x_coordinate,$room->y_coordinate);
                     $lon = $point['lon'];
                     $lat = $point['lat'];
-
                     $room->update([
                         'longitude' => $lon,
                         'latitude' => $lat
@@ -86,31 +73,32 @@ class RoomsController extends Controller
                     $room->touch();
                     $room->save();
                 }catch(\GuzzleHttp\Exception\RequestException $e){
-                    return array(
-                        'status'    => '400',
-                        'success'   => 'false',
-                        'errors'    => array(
-                            'message'	=> 'An error occurred'
-                        )
-                    );
+                    $header = buildResponseHeaderArray(400, false);
+                    return appendErrorDataToResponseHeader($header);
                 }
-
             }
         }
-        $response = array(
-            'status'		  => $room == null ? '404' : '200',
-            'success'		  => $room == null ? 'false' : 'true',
-            'collection'      => 'room',
-//            'count'           => $room->count(),
-            'room'			  => $room == null ? array() : array(
+        $response = buildResponseHeaderArray($room == null ? '404' : '200',$room == null ? false : true);
+        if($room==null)
+        {
+            return appendErrorDataToResponseHeader($response);
+        }
+        return appendRoomDataToResponseHeader(
+            $response,
+            'room',
+            $room == null ? array() : array(
                 'room_number'	  => $room->room,
                 'building_name'	  => $room->building_name,
                 'latitude'        => $lat,
                 'longitude'		  => $lon
-            )
-        );
+            ));
+    }
 
-        return $response;
+    public function getPointOnMap($Xcoordinate,$Ycoordinate){
+        $client = new \GuzzleHttp\Client();
+        //  http://beta.ngs.noaa.gov/gtkws/geo?northing=76470.584 &easting=407886.482&zone=3702
+        $request = $client->get(env('GIS_WEB_SERVICE_URL') . "/spc?spcZone=0405&inDatum=nad83(NSRS2007)&outDatum=nad83(2011)&northing=" . $Ycoordinate . "&easting=" . $Xcoordinate . "&zone=0405 &units=usft");
+        return $request->json();
     }
 
     /*
