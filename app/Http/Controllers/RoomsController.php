@@ -103,8 +103,12 @@ class RoomsController extends Controller
      */
     public function getPointOnMap($Xcoordinate,$Ycoordinate){
         $client = new Client();
+        $options = ['verify' => false];
         //  http://beta.ngs.noaa.gov/gtkws/geo?northing=76470.584 &easting=407886.482&zone=3702
-        $request = $client->get(env('GIS_WEB_SERVICE_URL') . "/spc?spcZone=0405&inDatum=nad83(NSRS2007)&outDatum=nad83(2011)&northing=" . $Ycoordinate . "&easting=" . $Xcoordinate . "&zone=0405 &units=usft");
+        $request = $client->get(
+            env('GIS_WEB_SERVICE_URL') . "/spc?spcZone=0405&inDatum=nad83(NSRS2007)&outDatum=nad83(2011)&northing=" .
+            $Ycoordinate . "&easting=" . $Xcoordinate . "&zone=0405 &units=usft", $options
+        );
         return json_decode($request->getBody(), true);
     }
 
