@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 
 class RoomsController extends Controller
 {
 
     /**
      * Retrieves the landing page
-     *
      * @return \Illuminate\View\View
      */
     public function index()
@@ -31,7 +31,7 @@ class RoomsController extends Controller
         }else if($request->has('room')){
             return $this->getRoom($request->get('room'));
         } else {
-            $header = buildResponseHeaderArray(400, false);
+            $header = buildResponseHeaderArray(400, 'false');
             return appendErrorDataToResponseHeader($header);
         }
     }
@@ -43,29 +43,30 @@ class RoomsController extends Controller
     public function getAllRooms()
     {
         $roomData = Room::all();
-        $header = buildResponseHeaderArray(200, true);
+        $header = buildResponseHeaderArray(200, 'true');
         return appendRoomDataToResponseHeader($header, 'rooms', $roomData);
     }
 
     /**
      * Retrieves the specific rooms information
-     * @param Request $request the request URI
-     * @return array
+     * @param string $roomId the room ID
+     * @return array the JSON array
+     * @internal param Request $request the request URI
      */
     public function getRoom($roomId)
     {
         $formattedRoomId = $this->formatRoomNumber($roomId);
         $room = Room::getRoom($roomId,$formattedRoomId)->first();
         if($room != null){
-            if($room->longitude != null){
+            if($room->longitude != null && $room->latitude != null){
                 $lon = $room->longitude;
                 $lat = $room->latitude;
             }
             else{
                 try{
                     $point = $this->getPointOnMap($room->x_coordinate,$room->y_coordinate);
-                    $lon = $point['lon'];
-                    $lat = $point['lat'];
+                    $lon = $point['srcLon'];
+                    $lat = $point['srcLat'];
                     $room->update([
                         'longitude' => $lon,
                         'latitude' => $lat
@@ -73,12 +74,12 @@ class RoomsController extends Controller
                     $room->touch();
                     $room->save();
                 }catch(\GuzzleHttp\Exception\RequestException $e){
-                    $header = buildResponseHeaderArray(400, false);
+                    $header = buildResponseHeaderArray(400, 'false');
                     return appendErrorDataToResponseHeader($header);
                 }
             }
         }
-        $response = buildResponseHeaderArray($room == null ? '404' : '200',$room == null ? false : true);
+        $response = buildResponseHeaderArray($room == null ? '404' : '200',$room == null ? 'false' : 'true');
         if($room==null)
         {
             return appendErrorDataToResponseHeader($response);
@@ -94,17 +95,24 @@ class RoomsController extends Controller
             ));
     }
 
+    /**
+     * Retrieves the point from the map
+     * @param string $Xcoordinate
+     * @param string $Ycoordinate
+     * @return mixed
+     */
     public function getPointOnMap($Xcoordinate,$Ycoordinate){
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
         //  http://beta.ngs.noaa.gov/gtkws/geo?northing=76470.584 &easting=407886.482&zone=3702
         $request = $client->get(env('GIS_WEB_SERVICE_URL') . "/spc?spcZone=0405&inDatum=nad83(NSRS2007)&outDatum=nad83(2011)&northing=" . $Ycoordinate . "&easting=" . $Xcoordinate . "&zone=0405 &units=usft");
-        return $request->json();
+        return json_decode($request->getBody(), true);
     }
 
-    /*
+    /**
      * Prepends 1 or more zeroes to a number.
      * @param string|int $num - The number to which you want to prepend zeroes
-     * @param int $count    - (optional) How many zeroes you would like to prepend. Defaults to 1.
+     * @param int $count - (optional) How many zeroes you would like to prepend. Defaults to 1.
+     * @return int|string
      */
     private function prependZeroes($num, $count=1) {
         for ($i = 0; $i < $count; $i++) {
