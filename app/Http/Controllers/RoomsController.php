@@ -56,42 +56,35 @@ class RoomsController extends Controller
     {
         $formattedRoomId = $this->formatRoomNumber($roomId);
         $room = Room::getRoom($roomId,$formattedRoomId)->first();
+        $response = buildResponseHeaderArray($room == null ? 404 : 200,$room == null ? 'false' : 'true');
         if($room != null){
-            if($room->longitude != null && $room->latitude != null){
-                $lon = $room->longitude;
-                $lat = $room->latitude;
-            }
-            else{
-                try{
+            if($room->longitude != null && $room->latitude != null) {
+                $roomsCollection[] = [
+                    'room_number'   => $room->room,
+                    'building_name' => $room->building_name,
+                    'latitude'      => $room->latitude,
+                    'longitude'     => $room->longitude
+                ];
+                return appendRoomDataToResponseHeader($response, 'rooms', $roomsCollection);
+            } else {
+                try {
                     $point = $this->getPointOnMap($room->x_coordinate,$room->y_coordinate);
                     $lon = $point['srcLon'];
                     $lat = $point['srcLat'];
                     $room->update([
                         'longitude' => $lon,
-                        'latitude' => $lat
+                        'latitude'  => $lat
                     ]);
                     $room->touch();
                     $room->save();
-                }catch(\GuzzleHttp\Exception\RequestException $e){
+                } catch(\GuzzleHttp\Exception\RequestException $e) {
                     $header = buildResponseHeaderArray(400, 'false');
                     return appendErrorDataToResponseHeader($header);
                 }
             }
-        }
-        $response = buildResponseHeaderArray($room == null ? 404 : 200,$room == null ? 'false' : 'true');
-        if($room==null)
-        {
+        } else {
             return appendErrorDataToResponseHeader($response);
         }
-        return appendRoomDataToResponseHeader(
-            $response,
-            'rooms',
-            $room == null ? array() : array(
-                'room_number'	  => $room->room,
-                'building_name'	  => $room->building_name,
-                'latitude'        => $lat,
-                'longitude'		  => $lon
-            ));
     }
 
     /**

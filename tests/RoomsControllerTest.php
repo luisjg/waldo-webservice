@@ -32,10 +32,10 @@ class RoomsControllerTest extends TestCase
         $this->assertEquals($data['status'],200);
         $this->assertEquals($data['success'],'true');
         $this->assertEquals($data['collection'],'rooms');
-        $this->assertEquals($data['rooms']['room_number'],$this->roomID);
-        $this->assertEquals($data['rooms']['building_name'],'Jacaranda Hall');
-        $this->assertEquals($data['rooms']['latitude'],$this->lat);
-        $this->assertEquals($data['rooms']['longitude'],$this->lon);
+        $this->assertEquals($data['rooms'][0]['room_number'],$this->roomID);
+        $this->assertEquals($data['rooms'][0]['building_name'],'Jacaranda Hall');
+        $this->assertEquals($data['rooms'][0]['latitude'],$this->lat);
+        $this->assertEquals($data['rooms'][0]['longitude'],$this->lon);
     }
     public function testGetRoom_returns_error(){
         $data = $this->roomsController->getRoom('JD99999');
