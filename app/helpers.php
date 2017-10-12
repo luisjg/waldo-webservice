@@ -7,8 +7,10 @@
 function buildResponseHeaderArray($statusCode, $successBool)
 {
     return $response =[
-        'status' => strval($statusCode),
-        'success' => ($successBool),
+        'success' => $successBool,
+        'status' => $statusCode,
+        'api' => 'waldo',
+        'version' => '1.0'
     ];
 }
 
@@ -21,7 +23,8 @@ function buildResponseHeaderArray($statusCode, $successBool)
 function appendRoomDataToResponseHeader($headerArray, $collectionName, $collection)
 {
     return $headerArray += [
-        'collection' => $collectionName,
+        'collection'    => $collectionName,
+        'count'         => strval(count($collection)),
         $collectionName => $collection
     ];
 }
