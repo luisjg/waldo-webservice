@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RoomsController;
+use Illuminate\Support\Str;
 
 class RoomsControllerTest extends TestCase
 {
@@ -15,15 +16,26 @@ class RoomsControllerTest extends TestCase
         $this->lat='34.2414114500';
         $this->lon='-118.5292999450';
     }
+
+    public function testJsonHeader_returns_header(){
+        $data = $this->roomsController->getRoom($this->roomID);
+        $this->assertArrayHasKey('success', $data);
+        $this->assertArrayHasKey('status', $data);
+        $this->assertArrayHasKey('api', $data);
+        $this->assertArrayHasKey('version', $data);
+        $this->assertArrayHasKey('collection', $data);
+        $this->assertArrayHasKey('count', $data);
+        $this->assertArrayHasKey('rooms', $data);
+    }
     public function testGetRoom_returns_room(){
         $data = $this->roomsController->getRoom($this->roomID);
-        $this->assertEquals($data['status'],'200');
+        $this->assertEquals($data['status'],200);
         $this->assertEquals($data['success'],'true');
-        $this->assertEquals($data['collection'],'room');
-        $this->assertEquals($data['room']['room_number'],$this->roomID);
-        $this->assertEquals($data['room']['building_name'],'Jacaranda Hall');
-        $this->assertEquals($data['room']['latitude'],$this->lat);
-        $this->assertEquals($data['room']['longitude'],$this->lon);
+        $this->assertEquals($data['collection'],'rooms');
+        $this->assertEquals($data['rooms']['room_number'],$this->roomID);
+        $this->assertEquals($data['rooms']['building_name'],'Jacaranda Hall');
+        $this->assertEquals($data['rooms']['latitude'],$this->lat);
+        $this->assertEquals($data['rooms']['longitude'],$this->lon);
     }
     public function testGetRoom_returns_error(){
         $data = $this->roomsController->getRoom('JD99999');
@@ -33,7 +45,7 @@ class RoomsControllerTest extends TestCase
     }
     public function testGetAllRooms_returns_all_rooms(){
         $data = $this->roomsController->getAllRooms();
-        $this->assertEquals($data['status'],'200');
+        $this->assertEquals($data['status'],200);
         $this->assertEquals($data['success'],'true');
         $this->assertEquals($data['collection'],'rooms');
         $this->assertEquals(count($data['rooms']),5944);
@@ -42,8 +54,8 @@ class RoomsControllerTest extends TestCase
         $data = $this->call('GET', 'api/1.0/rooms?room=' . $this->roomID);
         $content = json_decode($data->content(), 'true');
         $this->assertEquals($content['status'],200);
-        $this->assertEquals($content['collection'],'room');
-        $this->assertArrayHasKey('room',$content);
+        $this->assertEquals($content['collection'],'rooms');
+        $this->assertArrayHasKey('rooms',$content);
     }
     public function testHandleRequest_returns_all_rooms(){
         $data = $this->call('GET', 'api/1.0/rooms');

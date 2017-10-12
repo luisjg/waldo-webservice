@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 
 class RoomsController extends Controller
 {
@@ -79,14 +78,14 @@ class RoomsController extends Controller
                 }
             }
         }
-        $response = buildResponseHeaderArray($room == null ? '404' : '200',$room == null ? 'false' : 'true');
+        $response = buildResponseHeaderArray($room == null ? 404 : 200,$room == null ? 'false' : 'true');
         if($room==null)
         {
             return appendErrorDataToResponseHeader($response);
         }
         return appendRoomDataToResponseHeader(
             $response,
-            'room',
+            'rooms',
             $room == null ? array() : array(
                 'room_number'	  => $room->room,
                 'building_name'	  => $room->building_name,
