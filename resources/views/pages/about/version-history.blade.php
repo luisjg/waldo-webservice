@@ -38,7 +38,7 @@
 
             <div class="col-md-9">
                 <h2 class="type--header type--thin">Version History</h2>
-                <h2>Waldo 1.0 <small>Release Date: 10/09/17</small></h2>
+                <h2>Waldo 1.0 <small>Release Date: 10/17/17</small></h2>
                 <p>
                     <strong>New Features:</strong>
                 <ol>
