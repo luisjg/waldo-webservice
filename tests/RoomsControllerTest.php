@@ -32,6 +32,11 @@ class RoomsControllerTest extends TestCase
         $this->assertEquals($data['status'],200);
         $this->assertEquals($data['success'],'true');
         $this->assertEquals($data['collection'],'rooms');
+        $this->assertEquals($data['count'],1);
+        $this->assertArrayHasKey('room_number', $data['rooms'][0]);
+        $this->assertArrayHasKey('building_name', $data['rooms'][0]);
+        $this->assertArrayHasKey('latitude', $data['rooms'][0]);
+        $this->assertArrayHasKey('longitude', $data['rooms'][0]);
         $this->assertEquals($data['rooms'][0]['room_number'],$this->roomID);
         $this->assertEquals($data['rooms'][0]['building_name'],'Jacaranda Hall');
         $this->assertEquals($data['rooms'][0]['latitude'],$this->lat);
@@ -49,6 +54,10 @@ class RoomsControllerTest extends TestCase
         $this->assertEquals($data['success'],'true');
         $this->assertEquals($data['collection'],'rooms');
         $this->assertEquals(count($data['rooms']),5944);
+        $this->assertArrayHasKey('room_number', $data['rooms'][0]);
+        $this->assertArrayHasKey('building_name', $data['rooms'][0]);
+        $this->assertArrayHasKey('latitude', $data['rooms'][0]);
+        $this->assertArrayHasKey('longitude', $data['rooms'][0]);
     }
     public function testHandleRequest_returns_room(){
         $data = $this->call('GET', 'api/1.0/rooms?room=' . $this->roomID);
