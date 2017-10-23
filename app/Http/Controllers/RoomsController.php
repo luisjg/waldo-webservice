@@ -41,9 +41,17 @@ class RoomsController extends Controller
      */
     public function getAllRooms()
     {
-        $roomData = Room::all();
+        $allRooms = Room::all();
+        $allRooms = $allRooms->map(function($roomDetail) {
+            return [
+                'room_number'   => $roomDetail->room,
+                'building_name' => $roomDetail->building_name,
+                'latitude'      => $roomDetail->latitude,
+                'longitude'     => $roomDetail->longitude
+                ];
+        });
         $header = buildResponseHeaderArray(200, 'true');
-        return appendRoomDataToResponseHeader($header, 'rooms', $roomData);
+        return appendRoomDataToResponseHeader($header, 'rooms', $allRooms);
     }
 
     /**
