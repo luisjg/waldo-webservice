@@ -1,5 +1,7 @@
 <?php
 
+use App\Classes\StatePlaneMapping;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -21,3 +23,26 @@ $app->group(['prefix' => 'api/1.0'], function() use ($app) {
     $app->get('/rooms', 'RoomsController@handleRequest');
 });
 
+$app->get('calc', function() {
+	// known coordinates of MZ0000
+	//$old_lat = 34.237628419;
+	//$old_long = -118.530378707;
+
+	// plate coordinates (need to figure out how to reproduce these)
+	$plate_lat = 29.0040325363;
+	$plate_long = -124.51446532;
+
+	$dx = 6401365.22100000; // negate for known -> plate
+	$dy = 1909282.51400000; // negate for known -> plate
+
+	//dd(StatePlaneMapping::latLongRelative($old_lat, $old_long, $dx, $dy, StatePlaneMapping::UNITS_FEET));
+
+	$plate_coords = StatePlaneMapping::findPlateOriginFromCoordDistance(
+		34.237628419, -118.530378707, $dx, $dy, StatePlaneMapping::UNITS_FEET
+	);
+	dd($plate_coords);
+	$bldg_coords = StatePlaneMapping::findLatLongFromPlateDistance(
+		$plate_coords['lat'], $plate_coords['lon'], $dx, $dy, StatePlaneMapping::UNITS_FEET
+	);
+	dd($plate_coords, $bldg_coords);
+});

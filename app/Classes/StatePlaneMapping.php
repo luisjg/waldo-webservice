@@ -59,32 +59,64 @@ class StatePlaneMapping
 	 */
 	const UNITS_METERS = "meters";
 
-	/**
-	 * Calculates and returns the number of meters per degree of longtitude. This
-	 * can be used in calculations regarding northing.
-	 *
-	 * @param float $longitude The longitude for which to calculate the meters
-	 * @return float
-	 *
-	 * @see https://stackoverflow.com/a/7478827
-	 */
-	public static function metersPerLongitudeDegree($longitude) {
-		return ((2.0 * M_PI) / 360.0) *
-			self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS *
-			cos($longitude);
+	public static function findLatLongFromPlateDistance($plate_lat, $plate_lon, $dx_from_plate, $dy_from_plate, $units="meters") {
+		// check the units and perform conversions if necessary
+		if($units == self::UNITS_FEET) {
+			$dx_from_plate = $dx_from_plate * self::FEET_TO_METERS;
+			$dy_from_plate = $dy_from_plate * self::FEET_TO_METERS;
+		}
+
+		return self::latLongFromDistance(
+			$plate_lat, $plate_lon, $dx_from_plate, $dy_from_plate
+		);
+	}
+
+	public static function findPlateOriginFromCoordDistance($known_lat, $known_lon,
+		$dx_from_plate, $dy_from_plate, $units="meters") {
+		
+		// 1. Negate the distance from the plate so we can work backwards
+		$dx_from_plate = -$dx_from_plate;
+		$dy_from_plate = -$dy_from_plate;
+
+		// 2. Perform any necessary unit conversions
+		if($units == self::UNITS_FEET) {
+			$dx_from_plate = $dx_from_plate * self::FEET_TO_METERS;
+			$dy_from_plate = $dy_from_plate * self::FEET_TO_METERS;
+		}
+
+		// 3. Calculate the lat/long from our reversed distance
+		return self::latLongFromDistance(
+			$known_lat, $known_lon, $dx_from_plate, $dy_from_plate
+		);
 	}
 
 	/**
-	 * Calculates and returns the number of meters per degree of latitude. This
-	 * can be used in calculations regarding easting.
+	 * Calculates and returns a new lat/long from an existing lat/long as well
+	 * as the X distance (easting) and Y distance (northing) from those coordinates.
+	 * The return value is an array with a "lat" key and a "lon" key.
 	 *
-	 * @param float $latitude The latitude for which to calculate the meters
-	 * @return float
+	 * This method only works in units of meters.
+	 *
+	 * @param float $lat The existing latitude to use for the calculation
+	 * @param float $lon The existing longitude to use for the calculation
+	 * @param float $easting The X distance to add to the latitude
+	 * @param float $northing The Y distance to add to the longitude
+	 *
+	 * @return array
 	 *
 	 * @see https://stackoverflow.com/a/7478827
 	 */
-	public static function metersPerLatitudeDegree($latitude) {
-		return ((2.0 * M_PI) / 360.0) *
-			self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS;
+	private static function latLongFromDistance($lat, $lon, $easting, $northing) {
+		$new_lat = $lat + ($northing / (self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS)) *
+			(180.0 / M_PI);
+
+		$new_long = $lon + ($northing / (self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS)) *
+			(180.0 / M_PI) /
+			cos($new_lat * (M_PI/180.0));
+
+		return [
+			'lat' => $new_lat,
+			'lon' => $new_long,
+		];
 	}
 }
