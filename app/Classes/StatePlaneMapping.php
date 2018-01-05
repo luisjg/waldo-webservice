@@ -58,4 +58,33 @@ class StatePlaneMapping
 	 * @var string
 	 */
 	const UNITS_METERS = "meters";
+
+	/**
+	 * Calculates and returns the number of meters per degree of longtitude. This
+	 * can be used in calculations regarding northing.
+	 *
+	 * @param float $longitude The longitude for which to calculate the meters
+	 * @return float
+	 *
+	 * @see https://stackoverflow.com/a/7478827
+	 */
+	public static function metersPerLongitudeDegree($longitude) {
+		return ((2.0 * M_PI) / 360.0) *
+			self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS *
+			cos($longitude);
+	}
+
+	/**
+	 * Calculates and returns the number of meters per degree of latitude. This
+	 * can be used in calculations regarding easting.
+	 *
+	 * @param float $latitude The latitude for which to calculate the meters
+	 * @return float
+	 *
+	 * @see https://stackoverflow.com/a/7478827
+	 */
+	public static function metersPerLatitudeDegree($latitude) {
+		return ((2.0 * M_PI) / 360.0) *
+			self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS;
+	}
 }
