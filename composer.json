@@ -28,6 +28,7 @@
         "classmap": [
             "tests/",
             "database/",
+            "app/Classes",
             "app/Models"
         ]
     },
