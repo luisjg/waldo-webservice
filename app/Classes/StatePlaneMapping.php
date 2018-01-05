@@ -2,7 +2,12 @@
 
 namespace App\Classes;
 
-class CoordinatesHelper
+/**
+ * This class exists to perform well-known calculations for the State Plane
+ * Coordinate system. Its primary use is to convert X/Y relative coordinates
+ * in a given zone to absolute latitude/longitude coordinates for mapping.
+ */
+class StatePlaneMapping
 {
 	/**
 	 * Constant describing the conversion metric from kilometers to meters.
@@ -39,4 +44,18 @@ class CoordinatesHelper
 	 * @var float
 	 */
 	const EARTH_RADIUS_KILOMETERS = 6371.0;
+
+	/**
+	 * Constant describing source units as feet for calculations.
+	 *
+	 * @var string
+	 */
+	const UNITS_FEET = "feet";
+
+	/**
+	 * Constant describing source units as meters for calculations.
+	 *
+	 * @var string
+	 */
+	const UNITS_METERS = "meters";
 }
