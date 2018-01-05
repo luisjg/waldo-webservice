@@ -86,7 +86,7 @@ class StatePlaneMapping
 
 		// 3. Calculate the lat/long from our reversed distance
 		return self::latLongFromDistance(
-			$known_lat, $known_lon, $dx_from_plate, $dy_from_plate
+			$known_lat, $known_lon, $dx_from_plate, $dy_from_plate, "plate"
 		);
 	}
 
@@ -106,13 +106,23 @@ class StatePlaneMapping
 	 *
 	 * @see https://stackoverflow.com/a/7478827
 	 */
-	private static function latLongFromDistance($lat, $lon, $easting, $northing) {
+	private static function latLongFromDistance($lat, $lon, $easting, $northing, $type="point") {
 		$new_lat = $lat + ($northing / (self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS)) *
 			(180.0 / M_PI);
 
+		if($type == "point") {
+			// non-plate calculation needs the original latitude parameter
+			$latval = $lat;
+		}
+		else
+		{
+			// plate calculation needs the newly-calculated latitude
+			$latval = $new_lat;
+		}
+
 		$new_long = $lon + ($northing / (self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS)) *
 			(180.0 / M_PI) /
-			cos($new_lat * (M_PI/180.0));
+			cos($latval * (M_PI/180.0));
 
 		return [
 			'lat' => $new_lat,
