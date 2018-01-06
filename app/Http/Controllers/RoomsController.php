@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\StatePlaneMapping;
 use App\Models\Room;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class RoomsController extends Controller
@@ -75,41 +75,29 @@ class RoomsController extends Controller
                 ];
                 return appendRoomDataToResponseHeader($response, 'rooms', $roomsCollection);
             } else {
-                try {
-                    $point = $this->getPointOnMap($room->x_coordinate,$room->y_coordinate);
-                    $lon = $point['srcLon'];
-                    $lat = $point['srcLat'];
-                    $room->update([
-                        'longitude' => $lon,
-                        'latitude'  => $lat
-                    ]);
-                    $room->touch();
-                    $room->save();
-                } catch(\GuzzleHttp\Exception\RequestException $e) {
-                    $header = buildResponseHeaderArray(400, 'false');
-                    return appendErrorDataToResponseHeader($header);
-                }
+                // retrieve the point mapped as lat/long and save it to the
+                // database
+                $map = new StatePlaneMapping();
+                $point = $map->convertPointToLatLong
+                    ($room->x_coordinate, $room->y_coordinate);
+                $room->update([
+                    'longitude' => $point['lon'],
+                    'latitude'  => $point['lat'],
+                ]);
+                $room->touch();
+                $room->save();
+
+                $roomsCollection[] = [
+                    'room_number'   => $room->room,
+                    'building_name' => $room->building_name,
+                    'latitude'      => $room->latitude,
+                    'longitude'     => $room->longitude
+                ];
+                return appendRoomDataToResponseHeader($response, 'rooms', $roomsCollection);
             }
         } else {
             return appendErrorDataToResponseHeader($response);
         }
-    }
-
-    /**
-     * Retrieves the point from the map
-     * @param string $Xcoordinate
-     * @param string $Ycoordinate
-     * @return mixed
-     */
-    public function getPointOnMap($Xcoordinate,$Ycoordinate){
-        $client = new Client();
-        $options = ['verify' => false];
-        //  http://beta.ngs.noaa.gov/gtkws/geo?northing=76470.584 &easting=407886.482&zone=3702
-        $request = $client->get(
-            env('GIS_WEB_SERVICE_URL') . "/spc?spcZone=0405&inDatum=nad83(NSRS2007)&outDatum=nad83(2011)&northing=" .
-            $Ycoordinate . "&easting=" . $Xcoordinate . "&zone=0405 &units=usft", $options
-        );
-        return json_decode($request->getBody(), true);
     }
 
     /**

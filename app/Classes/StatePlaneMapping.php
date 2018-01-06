@@ -2,6 +2,10 @@
 
 namespace App\Classes;
 
+use proj4php\Proj4php;
+use proj4php\Proj;
+use proj4php\Point;
+
 /**
  * This class exists to perform well-known calculations for the State Plane
  * Coordinate system. Its primary use is to convert X/Y relative coordinates
@@ -46,73 +50,70 @@ class StatePlaneMapping
 	const EARTH_RADIUS_KILOMETERS = 6371.0;
 
 	/**
-	 * Constant describing source units as feet for calculations.
+	 * The instance of Proj4 for mapping and transformation.
 	 *
-	 * @var string
+	 * @var Proj4php
 	 */
-	const UNITS_FEET = "feet";
+	private $proj4;
 
 	/**
-	 * Constant describing source units as meters for calculations.
-	 *
-	 * @var string
+	 * Constructs a new StatePlaneMapping instance.
 	 */
-	const UNITS_METERS = "meters";
+	public function __construct() {
+		// Initialise Proj4
+		// https://github.com/proj4php/proj4php
+		$this->proj4 = new Proj4php();
 
-	/**
-	 * Calculates and returns the the lat/long coordinates of a point based on
-	 * the lat/long of the plate as well as the X distance (easting) and the Y
-	 * distance (northing) from the plate.
-	 * The return value is an array with a "lat" key and a "lon" key.
-	 *
-	 * @param float $plate_lat The latitude of the plate
-	 * @param float $plate_lon The longitude of the plate
-	 * @param float $dy_from_plate The distance away from the plate on the Y axis
-	 * @param string $units Can be either "meters" or "feet" and represents the units
-	 * used for the $dy_from_plate parameter
-	 * 
-	 * @return array
-	 */
-	public static function findLatLongFromPlateDistance($plate_lat, $plate_lon,
-		$dy_from_plate, $units="meters") {
-		// check the units and perform conversions if necessary
-		if($units == self::UNITS_FEET) {
-			$dy_from_plate = $dy_from_plate * self::FEET_TO_METERS;
-		}
-
-		return self::latLongFromDistance(
-			$plate_lat, $plate_lon, $dy_from_plate
+		// initialize zone 0405 (California Zone 5) SPC datum by default since
+		// this is a mapping application for a specific part of Los Angeles
+		// http://spatialreference.org/ref/epsg/2229 (select Proj4 format)
+		$this->addDatumDefinition("EPSG:2229",
+			"+proj=lcc +lat_1=35.46666666666667 +lat_2=34.03333333333333 +lat_0=33.5 +lon_0=-118 +x_0=2000000.0001016 +y_0=500000.0001016001 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs"
 		);
 	}
 
 	/**
-	 * Calculates and returns the origin of the plate based on a known
-	 * latitude and longitude as well as the Y distance (northing) from that plate.
-	 * The return value is an array with a "lat" key and a "lon" key.
+	 * Adds a datum definition in Proj4 format to this mapping class.
 	 *
-	 * @param float $known_lat The known latitude of a point
-	 * @param float $known_lon The known longitude of a point
-	 * @param float $dy_from_plate The distance to the point on the Y axis from the plate
-	 * @param string $units Can be either "meters" or "feet" and represents the units
-	 * used for the $dy_from_plate parameter
-	 * 
+	 * @param string $datum The name of the datum being added (ex: EPSG:2229)
+	 * @param string $proj4Format The Proj4 format of the datum being added
+	 *
+	 * @see http://spatialreference.org/ref/epsg/
+	 */
+	public function addDatumDefinition($datum, $proj4Format) {
+		$this->proj4->addDef($datum, $proj4Format);
+	}
+
+	/**
+	 * Converts an X/Y point to lat/long coordinates. Returns an array with the
+	 * keys "lat" and "lon" after the conversion.
+	 *
+	 * @param float $x The X coordinate of the point
+	 * @param float $y The Y coordinate of the point
+	 * @param string $datum Optional datum format of point. Default is EPSG:2229
+	 *
 	 * @return array
 	 */
-	public static function findPlateOriginFromCoordDistance($known_lat, $known_lon,
-		$dy_from_plate, $units="meters") {
-		
-		// 1. Negate the distance from the plate so we can work backwards
-		$dy_from_plate = -$dy_from_plate;
+	public function convertPointToLatLong($x, $y, $datum="EPSG:2229") {
+		// initialize the projection with the desired datum
+		$projection = new Proj($datum, $this->proj4);
 
-		// 2. Perform any necessary unit conversions
-		if($units == self::UNITS_FEET) {
-			$dy_from_plate = $dy_from_plate * self::FEET_TO_METERS;
-		}
+		// initialize the lat/long projection (EPSG:4326)
+		$projWGS84  = new Proj('EPSG:4326', $this->proj4);
 
-		// 3. Calculate the lat/long from our reversed distance
-		return self::latLongFromDistance(
-			$known_lat, $known_lon, $dy_from_plate, "plate"
-		);
+		// generate a point based on the X/Y coordinates within the desired
+		// projection initialized above
+		$pointSrc = new Point($x, $y, $projection);
+
+		// transform the datum to the new format
+		$pointDest = $this->proj4->transform($projWGS84, $pointSrc);
+
+		// return an array containing the lat/long values; the values are
+		// rounded to 9 digits of precision to match Facilities values
+		return [
+			'lat' => round($pointDest->y, 9, PHP_ROUND_HALF_UP),
+			'lon' => round($pointDest->x, 9, PHP_ROUND_HALF_UP),
+		];
 	}
 
 	/**
@@ -140,7 +141,7 @@ class StatePlaneMapping
 	 * or using the plate coordinates to calculate unknown coordinates using a
 	 * distance on the Y axis.
 	 */
-	private static function latLongFromDistance($lat, $lon, $northing, $type="point") {
+	public static function latLongFromDistance($lat, $lon, $northing, $type="point") {
 		$new_lat = $lat + ($northing / (self::EARTH_RADIUS_KILOMETERS * self::KILOMETERS_TO_METERS)) *
 			(180.0 / M_PI);
 

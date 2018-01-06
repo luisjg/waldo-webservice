@@ -9,7 +9,8 @@
         "laravel/lumen-framework": "5.4.*",
         "vlucas/phpdotenv": "~2.2",
         "csun-metalab/lumen-proxypass": "^1.0",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "proj4php/proj4php": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

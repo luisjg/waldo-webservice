@@ -24,23 +24,10 @@ $app->group(['prefix' => 'api/1.0'], function() use ($app) {
 });
 
 $app->get('calc', function() {
-	// known coordinates of MZ0000 (this should be the result of the bldg_coords array)
-	$known_lat = 34.237628419;
-	$known_long = -118.530378707;
-
-	// plate coordinates (as of Jan 5, 2018)
-	$plate_lat = 29.0040325363;
-	$plate_long = -124.51446532;
-
-	// X/Y distance from the plate coordinates
-	$dx = 6401365.22100000;
-	$dy = 1909282.51400000;
-
-	$plate_coords = StatePlaneMapping::findPlateOriginFromCoordDistance(
-		$known_lat, $known_long, $dy, StatePlaneMapping::UNITS_FEET
-	);
-	$bldg_coords = StatePlaneMapping::findLatLongFromPlateDistance(
-		$plate_coords['lat'], $plate_coords['lon'], $dy, StatePlaneMapping::UNITS_FEET
-	);
-	dd($plate_coords, $bldg_coords);
+	$map = new StatePlaneMapping();
+	$result = $map->convertPointToLatLong(
+		6401894.55600000,
+		1910627.60100000
+	); // X/Y for JD1600A (slightly more precise than Facilities)
+	dd($result);
 });
