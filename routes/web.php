@@ -11,12 +11,8 @@
 |
 */
 
-$app->get('/', 'RoomsController@index');
+$router->get('/', 'RoomsController@index');
 
-$app->get('/about/version-history', function() {
+$router->get('/about/version-history', function() {
     return view('pages.about.version-history');
-});
-
-$app->group(['prefix' => 'api/1.0'], function() use ($app) {
-    $app->get('/rooms', 'RoomsController@handleRequest');
 });
