@@ -38,6 +38,13 @@
 
             <div class="col-md-9">
                 <h2 class="type--header type--thin">Version History</h2>
+                <h2>Waldo 1.0.1 <small>Release Date: 1/10/18</small></h2>
+                <p>
+                    <strong>Improvements:</strong>
+                    <ol>
+                        <li>Speed up transformation between x/y points to lat/long coordinates using <a href="//github.com/proj4php/proj4php">proj4php</a></li>
+                    </ol>
+                </p>
                 <h2>Waldo 1.0 <small>Release Date: 10/17/17</small></h2>
                 <p>
                     <strong>New Features:</strong>

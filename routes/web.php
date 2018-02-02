@@ -1,7 +1,5 @@
 <?php
 
-use App\Classes\StatePlaneMapping;
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -13,21 +11,8 @@ use App\Classes\StatePlaneMapping;
 |
 */
 
-$app->get('/', 'RoomsController@index');
+$router->get('/', 'RoomsController@index');
 
-$app->get('/about/version-history', function() {
+$router->get('/about/version-history', function() {
     return view('pages.about.version-history');
-});
-
-$app->group(['prefix' => 'api/1.0'], function() use ($app) {
-    $app->get('/rooms', 'RoomsController@handleRequest');
-});
-
-$app->get('calc', function() {
-	$map = new StatePlaneMapping();
-	$result = $map->convertPointToLatLong(
-		6401894.55600000,
-		1910627.60100000
-	); // X/Y for JD1600A (slightly more precise than Facilities)
-	dd($result);
 });
