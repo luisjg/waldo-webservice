@@ -40,3 +40,13 @@ function appendErrorDataToResponseHeader($headerArray){
     ];
 
 }
+
+/**
+ * @param $headerArray
+ * @return array
+ */
+function appendMessageDataToResponseHeader($headerArray, $message="success") {
+    return $headerArray += [
+        'message' => $message
+    ];
+}

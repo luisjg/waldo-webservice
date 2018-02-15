@@ -101,6 +101,39 @@ class RoomsController extends Controller
     }
 
     /**
+     * Calculates all missing lat/long values for rooms in the database and
+     * updates the records.
+     *
+     * @return array the JSON array
+     */
+    public function syncRoomCoordinates() {
+        $rooms = Room::whereNull('latitude')
+            ->whereNull('longitude')
+            ->get();
+        if($rooms->count() > 0) {
+            $map = new StatePlaneMapping();
+            foreach($rooms as $room) {
+                $point = $map->convertPointToLatLong
+                    ($room->x_coordinate, $room->y_coordinate);
+                $room->update([
+                    'longitude' => $point['lon'],
+                    'latitude'  => $point['lat'],
+                ]);
+                $room->touch();
+                $room->save();
+            }
+            $message = $rooms->count() . " room(s) updated";
+        }
+        else
+        {
+            $message = "0 rooms updated"
+        }
+
+        $response = buildResponseHeaderArray(200, "true");
+        return appendMessageDataToResponseHeader($response, $message);
+    }
+
+    /**
      * Prepends 1 or more zeroes to a number.
      * @param string|int $num - The number to which you want to prepend zeroes
      * @param int $count - (optional) How many zeroes you would like to prepend. Defaults to 1.
