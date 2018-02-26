@@ -126,7 +126,7 @@ class RoomsController extends Controller
         }
         else
         {
-            $message = "0 rooms updated"
+            $message = "0 rooms updated";
         }
 
         $response = buildResponseHeaderArray(200, "true");
