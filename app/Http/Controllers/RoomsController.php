@@ -13,6 +13,7 @@ class RoomsController extends Controller
 
     /**
      * Retrieves the landing page
+     *
      * @return \Illuminate\View\View
      */
     public function index()
@@ -22,6 +23,7 @@ class RoomsController extends Controller
 
     /**
      * Handles the request if any and returns relevant JSON
+     *
      * @param Request $request
      * @return array|\Illuminate\Database\Eloquent\Collection|static[]
      */
@@ -39,26 +41,25 @@ class RoomsController extends Controller
 
     /**
      * Retrieves all the rooms from the database
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAllRooms()
     {
-        $allRooms = Room::all();
-        $allRooms = $allRooms->map(function($roomDetail) {
-            return [
-                'room_number' => $roomDetail->room,
-                'building_name' => $roomDetail->building_name,
-                'latitude' => $roomDetail->latitude,
-                'longitude' => $roomDetail->longitude
-                ];
-        });
-        $header = buildResponseHeaderArray(200, 'true');
-        $formattedData = appendRoomDataToResponseHeader($header, 'rooms', $allRooms);
-        return response()->json($formattedData);
+        if (File::exists(storage_path('room/all-rooms.txt'))) {
+            $formattedData = File::get(storage_path('room/all-rooms.txt'));
+            $formattedData = json_decode($formattedData);
+            $process = new Process('php ../artisan update:room all > /dev/null &');
+            $process->start();
+        } else {
+            $formattedData = formatAllRoomsCollection();
+        }
+        return $this->sendResponse($formattedData);
     }
 
     /**
      * Retrieves the specific rooms information
+     *
      * @param string $roomId the room ID
      * @return \Illuminate\Http\JsonResponse
      * @internal param Request $request the request URI
@@ -78,7 +79,7 @@ class RoomsController extends Controller
             } else {
                 $response = buildResponseHeaderArray(404, 'false');
                 $formattedResponse = appendErrorDataToResponseHeader($response);
-                return $this->sendResponse($formattedResponse, 404);
+                return $this->sendResponse($formattedResponse);
             }
         }
     }
@@ -87,7 +88,7 @@ class RoomsController extends Controller
      * Calculates all missing lat/long values for rooms in the database and
      * updates the records.
      *
-     * @return array the JSON array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function syncRoomCoordinates() {
         $rooms = Room::whereNull('latitude')
@@ -111,8 +112,8 @@ class RoomsController extends Controller
         {
             $message = "0 rooms updated";
         }
-
         $response = buildResponseHeaderArray(200, "true");
-        return appendMessageDataToResponseHeader($response, $message);
+        $formattedResponse = appendMessageDataToResponseHeader($response, $message);
+        return $this->sendResponse($formattedResponse);
     }
 }

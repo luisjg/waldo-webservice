@@ -48,6 +48,8 @@ function appendErrorDataToResponseHeader($headerArray)
 }
 
 /**
+ * Appends a message to an array
+ *
  * @param $headerArray
  * @return array
  */
@@ -58,6 +60,35 @@ function appendMessageDataToResponseHeader($headerArray, $message="success")
     ];
 }
 
+/**
+ * Formats the all rooms data and stores it in the cache
+ *
+ * @return array
+ */
+function formatAllRoomsCollection()
+{
+    $allRooms = Room::all();
+    $allRooms = $allRooms->map(function($roomDetail) {
+        return [
+            'room_number' => $roomDetail->room,
+            'building_name' => $roomDetail->building_name,
+            'latitude' => $roomDetail->latitude,
+            'longitude' => $roomDetail->longitude
+        ];
+    });
+    $header = buildResponseHeaderArray(200, 'true');
+    $formattedData = appendRoomDataToResponseHeader($header, 'rooms', $allRooms);
+    storeRoomInLocalCache('all-rooms', $formattedData);
+    return $formattedData;
+}
+
+
+/**
+ * Formats a specific room's collection and saves it to the cache
+ *
+ * @param $roomId
+ * @return array
+ */
 function formatRoomCollection($roomId)
 {
     $formattedRoomId = formatRoomNumberHelper($roomId);
@@ -101,6 +132,8 @@ function formatRoomCollection($roomId)
 }
 
 /**
+ * Stores room data in the local cache
+ *
  * @param $room
  * @param $data
  */

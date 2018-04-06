@@ -25,7 +25,11 @@ class UpdateRoomCommand extends Command
     public function handle()
     {
         $room = $this->argument('room_id');
-        $formattedRoom = formatRoomCollection($room);
+        if ($room === 'all') {
+            $formattedRoom = formatAllRoomsCollection();
+        } else {
+            $formattedRoom = formatRoomCollection($room);
+        }
         if ($formattedRoom) {
             $this->info('The following '.$room.' data has been added to the cache.');
         }
