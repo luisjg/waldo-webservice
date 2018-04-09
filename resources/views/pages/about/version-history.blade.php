@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="type--header type--thin">Version History</h1>
-<h2>{{ env('APP_NAME') }} 1.0.3 <small>Release Date: 02/27/18</small></h2>
+<h2>{{ env('APP_NAME') }} 1.0.3 <small>Release Date: 04/11/18</small></h2>
 <p>
     <strong>Improvements:</strong>
 <ol>
