@@ -49,12 +49,14 @@ class RoomsController extends Controller
         if (File::exists(storage_path('room/all-rooms.txt'))) {
             $formattedData = File::get(storage_path('room/all-rooms.txt'));
             $formattedData = json_decode($formattedData);
+            $status = $formattedData->status;
             $process = new Process('php ../artisan update:room all > /dev/null &');
             $process->start();
         } else {
             $formattedData = formatAllRoomsCollection();
+            $status = $formattedData['status'];
         }
-        return $this->sendResponse($formattedData);
+        return $this->sendResponse($formattedData, $status);
     }
 
     /**
@@ -71,7 +73,7 @@ class RoomsController extends Controller
             $formattedResponse = json_decode($formattedResponse);
             $process = new Process('php ../artisan update:room ' . $roomId . ' > /dev/null &');
             $process->start();
-            return $this->sendResponse($formattedResponse);
+            return $this->sendResponse($formattedResponse, $formattedResponse->status);
         } else {
             $formattedResponse = formatRoomCollection($roomId);
             if ($formattedResponse) {
@@ -79,7 +81,7 @@ class RoomsController extends Controller
             } else {
                 $response = buildResponseHeaderArray(404, 'false');
                 $formattedResponse = appendErrorDataToResponseHeader($response);
-                return $this->sendResponse($formattedResponse);
+                return $this->sendResponse($formattedResponse, $formattedResponse->status);
             }
         }
     }
@@ -114,6 +116,6 @@ class RoomsController extends Controller
         }
         $response = buildResponseHeaderArray(200, "true");
         $formattedResponse = appendMessageDataToResponseHeader($response, $message);
-        return $this->sendResponse($formattedResponse);
+        return $this->sendResponse($formattedResponse, $formattedResponse->status);
     }
 }

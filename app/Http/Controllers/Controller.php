@@ -13,8 +13,8 @@ class Controller extends BaseController
      * @param int $status
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function sendResponse($data)
+    protected function sendResponse($data, $status)
     {
-        return response()->json($data, $data->status);
+        return response()->json($data, $status);
     }
 }
