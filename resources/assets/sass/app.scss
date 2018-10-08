@@ -1,0 +1,12 @@
+// Font Awesome (core classes)
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+
+// Font Awesome (font face definitions and file paths)
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+// Metaphor SASS
+@import '~metaphor-theme/src/scss/metaphor-v2';
+
+@import 'style';

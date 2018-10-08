@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-    <h2 id="introduction" class="type--header type--thin">Introduction</h2>
+    <h2 id="introduction">Introduction</h2>
     <p>
         The information is derived from the Facilities Database maintained by Admin and Finance IT.
         The web service provides a gateway via a REST-ful API. The information is retrieved by
@@ -25,7 +25,7 @@
   ]
 }</code></pre>
     <br>
-    <h2 id="getting-started" class="type--header type--thin">Getting Started</h2>
+    <h2 id="getting-started">Getting Started</h2>
     <ol>
         <li><strong>GENERATE THE URI:</strong> Find the usage that fits your need. Browse through subcollections, instances and query types to help you craft your URI.</li>
         <li><strong>PROVIDE THE DATA:</strong> Use the URI to query your data. See the Usage Example session.</li>
@@ -33,13 +33,13 @@
     </ol>
     <p>Loop through the data to display its information. See the Usage Example session.</p>
     <br>
-    <h2 id="collections" class="type--header type--thin">Collections</h2>
+    <h2 id="collections">Collections</h2>
     <strong>All Rooms Listing</strong>
     <ul>
         <li><a href="{{url('api/1.0/rooms')}}">{{url('api/1.0/rooms')}}</a></li>
     </ul>
     <br>
-    <h2 id="subcollections" class="type--header type--thin">Subcollections</h2>
+    <h2 id="subcollections">Subcollections</h2>
     <strong>Specific Room retrieval</strong>
     <ul>
         <li>

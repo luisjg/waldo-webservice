@@ -1,0 +1,21 @@
+.hero {
+  border-bottom: solid #e8e8e8;
+  border-width: 1px;
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.45rem;
+}
+.nav-metaphor.flex-column .nav-link:hover {
+  border-left-color: #d22030;
+}
+.padding {
+  padding-top: 1.5%;
+}
+.margin {
+  margin-top: 3%;
+}
+@media (min-width: 576px) {
+  .hero {
+    padding: 4rem 2rem;
+  }
+}
