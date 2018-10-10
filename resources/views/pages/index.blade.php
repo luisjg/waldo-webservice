@@ -1,4 +1,9 @@
 @extends('layouts.master')
+
+@section('title')
+    Documentation
+@endsection
+
 @section('content')
     <h2 id="introduction">Introduction</h2>
     <p>

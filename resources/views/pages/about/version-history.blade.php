@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+    Version History
+@endsection
+
 @section('content')
 <h2>Version History</h2>
 <h3 class="h5 padding">{{ env('APP_NAME') }} 1.0.3 <small>Release Date: 04/11/18</small></h3>

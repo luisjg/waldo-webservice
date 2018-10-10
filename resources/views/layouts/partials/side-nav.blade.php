@@ -1,11 +1,11 @@
-<p class="header--sm"><strong>DOCUMENTATION</strong></p>
+<p><strong>DOCUMENTATION</strong></p>
 <ul class="nav flex-column nav-metaphor">
 	<li class="nav-item"><a class="nav-link" href="{{ url('/#introduction') }}">Introduction</a></li>
 	<li class="nav-item"><a class="nav-link" href="{{ url('/#getting-started') }}">Getting Started</a></li>
 	<li class="nav-item"><a class="nav-link" href="{{ url('/#collections') }}">Collections</a></li>
 	<li class="nav-item"><a class="nav-link" href="{{ url('/#subcollections') }}">Subcollections</a></li>
 </ul>
-<p class="header--sm"><strong>VERSION HISTORY</strong></p>
+<p><strong>VERSION HISTORY</strong></p>
 <ul class="nav flex-column nav-metaphor">
 	<li class="nav-item"><a class="nav-link" href="{{ url('/about/version-history') }}">Recent Changes</a></li>
 </ul>

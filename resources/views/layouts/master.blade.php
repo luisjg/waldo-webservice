@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="@yield('description')">
     <title>{{ env('APP_NAME') }} Web Service | @yield('title')</title>
     <link rel="icon" href="//www.csun.edu/sites/default/themes/csun/favicon.ico" type="image/x-icon"/>
@@ -35,17 +35,15 @@
         <p>Delivering CSUN Room Location Information</p>
     </div>
 </div>
-<div class="main main--metalab" style="min-height: calc(100vh - 130px);">
 
-    <div class="section" id="menu">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-3 d-none d-md-block" id="sidebar">
-                    @include('layouts.partials.side-nav')
-                </div>
-                <div class="col-md-9" id="page">
-                    @yield('content')
-                </div>
+<div class="section" id="menu">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 d-none d-md-block" id="sidebar">
+                @include('layouts.partials.side-nav')
+            </div>
+            <div class="col-md-9" id="page">
+                @yield('content')
             </div>
         </div>
     </div>
