@@ -28,6 +28,13 @@
             <a class="nav-item nav-link" href="{{ url('/about/version-history') }}">Recent Changes</a>
         </div>
     </div>
+<!-- <ul class="nav nav-metaphor"> 
+    <li class="nav-item"> <a class="nav-link active" href="">Introduction</a> </li> 
+    <li class="nav-item"> <a class="nav-link" href="">Getting Started</a> </li> 
+    <li class="nav-item"> <a class="nav-link" href="">Collections</a> </li> 
+    <li class="nav-item"> <a class="nav-link" href="">Subcollections</a> </li> 
+    <li class="nav-item"> <a class="nav-link" href="">Recent Changes</a> </li> 
+</ul> -->
 </nav>
 <div class="hero">
     <div class="text-center">

@@ -8,14 +8,26 @@
 .nav-metaphor.flex-column .nav-link:hover {
   border-left-color: #d22030;
 }
-.padding {
-  padding-top: 1.5%;
-}
-.margin {
-  margin-top: 3%;
-}
+
 @media (min-width: 576px) {
   .hero {
     padding: 4rem 2rem;
+  }
+}
+
+// Version history styling
+.version-history {
+  h3 {
+    padding-bottom: .5%;
+    font-size: 2rem;
+  }
+
+  h3:nth-child(n+3) {
+    border-top: 1px solid #e8e8e8;
+    padding-top: 3.5%;
+  }
+
+  li:last-child {
+    padding-bottom: 1.75%;
   }
 }
