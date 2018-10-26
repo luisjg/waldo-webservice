@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="version-history">
-<h2 class="pb-2">Version History</h2>
+<h2>Version History</h2>
 <h3>{{ env('APP_NAME') }} 1.0.3 <small>Release Date: 04/11/18</small></h3>
     <strong>Improvements:</strong>
 <ol>

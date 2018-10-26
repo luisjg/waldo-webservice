@@ -5,14 +5,24 @@
   margin-bottom: 2rem;
   border-radius: 0.45rem;
 }
-.nav-metaphor.flex-column .nav-link:hover {
-  border-left-color: #d22030;
-}
+
 
 @media (min-width: 576px) {
   .hero {
     padding: 4rem 2rem;
   }
+}
+
+h2 {
+  padding-bottom: 0.5rem;
+  font-size: 3.25rem;
+}
+
+#page {
+  line-height: 2.75rem;
+    li {
+      padding: 0 0 1rem 0;
+    }
 }
 
 // Version history styling
@@ -25,9 +35,5 @@
   h3:nth-child(n+3) {
     border-top: 1px solid #e8e8e8;
     padding-top: 3.5%;
-  }
-
-  li:last-child {
-    padding-bottom: 1.75%;
   }
 }
