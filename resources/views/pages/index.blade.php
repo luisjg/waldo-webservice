@@ -12,22 +12,24 @@
         that is returned is a JSON object that contains room location information to a particular room; the format of the JSON object is as follows:
       </p>
       <pre class="prettyprint">
-          <code>{
-        "success": "true",
-        "status": 200,
-        "api": "waldo",
-        "version": "1.0",
-        "collection": "rooms",
-        "count": "1",
-        "rooms": [
-          {
-            "room_number": "JD2211",
-            "building_name": "Jacaranda Hall",
-            "latitude": 34.24141145,
-            "longitude": -118.529299945
-          }
-        ]
-      }</code>
+          <code>
+{
+    "success": "true",
+    "status": 200,
+    "api": "waldo",
+    "version": "1.0",
+    "collection": "rooms",
+    "count": "1",
+    "rooms": [
+      {
+        "room_number": "JD2211",
+        "building_name": "Jacaranda Hall",
+        "latitude": 34.24141145,
+        "longitude": -118.529299945
+      }
+    ]
+}
+        </code>
       </pre>
       <br>
       <h2 id="getting-started">Getting Started</h2>
