@@ -7,7 +7,7 @@
 }
 
 
-@media (min-width: 576px) {
+@include media-breakpoint-down(xs){
   .hero {
     padding: 4rem 2rem;
   }

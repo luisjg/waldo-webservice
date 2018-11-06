@@ -37,7 +37,7 @@
 </div>
 
 <div class="section" id="menu">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-md-3 d-none d-md-block" id="sidebar">
                 @include('layouts.partials.side-nav')
