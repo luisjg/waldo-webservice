@@ -1,0 +1,39 @@
+.hero {
+  border-bottom: solid #e8e8e8;
+  border-width: 1px;
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.45rem;
+}
+
+
+@include media-breakpoint-down(xs){
+  .hero {
+    padding: 4rem 2rem;
+  }
+}
+
+h2 {
+  padding-bottom: 0.5rem;
+  font-size: 3.25rem;
+}
+
+#page {
+  line-height: 2.75rem;
+    li {
+      padding: 0 0 1rem 0;
+    }
+}
+
+// Version history styling
+.version-history {
+  h3 {
+    padding-bottom: .5%;
+    font-size: 2rem;
+  }
+
+  h3:nth-child(n+3) {
+    border-top: 1px solid #e8e8e8;
+    padding-top: 3.5%;
+  }
+}
