@@ -12,7 +12,6 @@
 */
 
 $router->get('/', 'RoomsController@index');
-
 $router->get('/about/version-history', function() {
     return view('pages.about.version-history');
 });

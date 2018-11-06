@@ -11,33 +11,33 @@
     <link rel="stylesheet" href="{!! url('css/tomorrow.css.min') !!}">
 </head>
 <body>
-<nav class="navbar navbar-metaphor navbar-expand-md">
-    <a href="{{ url('/') }}" class="navbar-brand">
-        <span class="sr-only">CSUN Logo</span>
-        <span class="navbar-brand__subbrand">{{ env('APP_NAME') }}</span>
-    </a>
-    <button type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="navbarNavAltMarkup" class="collapse navbar-collapse justify-content-end">
-        <div class="navbar-nav text-center d-sm-block d-md-none">
-            <a class="nav-item nav-link" href="{{ url('/#introduction') }}">Introduction</a>
-            <a class="nav-item nav-link" href="{{ url('/#getting-started') }}">Getting Started</a>
-            <a class="nav-item nav-link" href="{{ url('/#collections') }}">Collections</a>
-            <a class="nav-item nav-link" href="{{ url('/#subcollections') }}">Subcollections</a>
-            <a class="nav-item nav-link" href="{{ url('/about/version-history') }}">Recent Changes</a>
+    <nav class="navbar navbar-metaphor navbar-expand-md">
+        <a href="{{ url('/') }}" class="navbar-brand">
+            <span class="sr-only">CSUN Logo</span>
+            <span class="navbar-brand__subbrand">{{ env('APP_NAME') }}</span>
+        </a>
+        <button type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbarNavAltMarkup" class="collapse navbar-collapse justify-content-end">
+            <div class="navbar-nav text-center d-sm-block d-md-none">
+                <a class="nav-item nav-link" href="{{ url('/#introduction') }}">Introduction</a>
+                <a class="nav-item nav-link" href="{{ url('/#getting-started') }}">Getting Started</a>
+                <a class="nav-item nav-link" href="{{ url('/#collections') }}">Collections</a>
+                <a class="nav-item nav-link" href="{{ url('/#subcollections') }}">Subcollections</a>
+                <a class="nav-item nav-link" href="{{ url('/#code-samples') }}">Code Samples</a>
+                <a class="nav-item nav-link" href="{{ url('/about/version-history') }}">Recent Changes</a>
+            </div>
+        </div>
+    </nav>
+    <div class="hero">
+        <div class="text-center">
+            <h1>{{ env('APP_NAME') }} Web Service</h1>
+            <p>Delivering CSUN Room Location Information</p>
         </div>
     </div>
-</nav>
-<div class="hero">
-    <div class="text-center">
-        <h1>{{ env('APP_NAME') }} Web Service</h1>
-        <p>Delivering CSUN Room Location Information</p>
-    </div>
-</div>
 
-<div class="section" id="menu">
-    <div class="container">
+    <div class="container fluid">
         <div class="row">
             <div class="col-md-3 d-none d-md-block" id="sidebar">
                 @include('layouts.partials.side-nav')
@@ -47,13 +47,12 @@
             </div>
         </div>
     </div>
-</div>
 
-@include('layouts.partials.metalab-footer')
-<script src="{!! url('js/manifest.js') !!}"></script>
-<script src="{!! url('js/vendor.js') !!}"></script>
-<script src="{!! url('js/app.js') !!}"></script>
-<script src="{!! url('js/run_prettify.js') !!}"></script>
+    @include('layouts.partials.metalab-footer')
+    <script src="{!! url('js/manifest.js') !!}"></script>
+    <script src="{!! url('js/vendor.js') !!}"></script>
+    <script src="{!! url('js/app.js') !!}"></script>
+    <script src="{!! url('js/run_prettify.js') !!}"></script>
 <!--
   __  __   ___   _____     _
  |  \/  | | __| |_   _|   /_\       Explore Learn Go Beyond
