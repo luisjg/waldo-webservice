@@ -16,7 +16,7 @@
     <ol>
         <li>Update the URLs to be more consistent with the rest of the web services.</li>
         <li>Include sample code usage on the landing page.</li>
-        <li>Update the landing pages to include the latest version of <a href="https://csun-metalab.github.io/metaphorV2/">Metaphor</a>.</li>
+        <li>Update the landing pages to include the latest version of <a href="//csun-metalab.github.io/metaphorV2/">Metaphor</a>.</li>
     </ol>
     <h3>{{ env('APP_NAME') }} 1.0.3 <small>Release Date: 04/11/18</small></h3>
     <strong>Improvements:</strong>
