@@ -16,7 +16,6 @@
 
 use App\Classes\StatePlaneMapping;
 use App\Http\Controllers\RoomsController;
-use Illuminate\Support\Str;
 
 class RoomsControllerTest extends TestCase
 {
@@ -28,7 +27,7 @@ class RoomsControllerTest extends TestCase
     protected $x;
     protected $y;
 
-    public function setUp()
+    public function setUp() :void
     {
         parent::setUp();
         $this->roomsController = new RoomsController;
@@ -40,7 +39,7 @@ class RoomsControllerTest extends TestCase
         $this->y = '1910657.49';
     }
 
-    public function testJsonHeader_returns_header()
+    public function testJsonHeader_returns_header() :void
     {
         $data = $this->roomsController->getRoom($this->roomID);
         $this->assertArrayHasKey('success', $data);
@@ -52,7 +51,7 @@ class RoomsControllerTest extends TestCase
         $this->assertArrayHasKey('rooms', $data);
     }
 
-    public function testGetRoom_returns_room()
+    public function testGetRoom_returns_room() :void
     {
         $data = $this->roomsController->getRoom($this->roomID);
         $this->assertEquals($data['status'],200);
@@ -69,7 +68,7 @@ class RoomsControllerTest extends TestCase
         $this->assertEquals($data['rooms'][0]['longitude'],$this->lon);
     }
 
-    public function testGetRoom_returns_error()
+    public function testGetRoom_returns_error() :void
     {
         $data = $this->roomsController->getRoom($this->fakeID);
         $this->assertEquals($data['status'],404);
@@ -77,7 +76,7 @@ class RoomsControllerTest extends TestCase
         $this->assertArrayHasKey('errors',$data);
     }
 
-    public function testGetAllRooms_returns_all_rooms()
+    public function testGetAllRooms_returns_all_rooms() :void
     {
         $data = $this->roomsController->getAllRooms();
         $this->assertEquals($data['status'],200);
@@ -90,7 +89,7 @@ class RoomsControllerTest extends TestCase
         $this->assertArrayHasKey('longitude', $data['rooms'][0]);
     }
 
-    public function testHandleRequest_returns_room()
+    public function testHandleRequest_returns_room() :void
     {
         $data = $this->call('GET', 'api/1.0/rooms?room=' . $this->roomID);
         $content = json_decode($data->content(), 'true');
@@ -99,7 +98,7 @@ class RoomsControllerTest extends TestCase
         $this->assertArrayHasKey('rooms',$content);
     }
 
-    public function testHandleRequest_returns_all_rooms()
+    public function testHandleRequest_returns_all_rooms() :void
     {
         $data = $this->call('GET', 'api/1.0/rooms');
         $content = json_decode($data->content(), 'true');
@@ -107,7 +106,7 @@ class RoomsControllerTest extends TestCase
         $this->assertEquals($content['status'],$this->roomsController->getAllRooms()['status']);
     }
 
-    public function testHandleRequest_returns_error_array()
+    public function testHandleRequest_returns_error_array() :void
     {
         $data = $this->call('GET', 'api/1.0/rooms?invalid=invalid');
         $content = json_decode($data->content(), 'true');
@@ -116,12 +115,12 @@ class RoomsControllerTest extends TestCase
         $this->assertArrayHasKey('errors',$content);
     }
 
-    public function testCheckConversion_returns_true_false()
+    public function testCheckConversion_returns_true_false() :void
     {
         $data = $this->roomsController->getRoom($this->roomID);
         $map = new StatePlaneMapping();
-        $result = $map->convertPointToLatLong(	
-            $this->x,	
+        $result = $map->convertPointToLatLong(
+            $this->x,
             $this->y
         );
         $this->assertEquals($data['rooms'][0]['latitude'], $result['lat']);
