@@ -6,3 +6,4 @@ Homestead.yaml
 storage/room
 .DS_Store
 node_modules
+.phpunit.result.cache
