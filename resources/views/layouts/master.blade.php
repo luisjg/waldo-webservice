@@ -62,21 +62,9 @@
             </div>
         </div>
     </div>
-
-    @include('layouts.partials.metalab-footer')
     <script src="{!! url('js/manifest.js') !!}"></script>
     <script src="{!! url('js/vendor.js') !!}"></script>
     <script src="{!! url('js/app.js') !!}"></script>
     <script src="{!! url('js/run_prettify.js') !!}"></script>
-<!--
-  __  __   ___   _____     _
- |  \/  | | __| |_   _|   /_\       Explore Learn Go Beyond
- | |\/| | | _|    | |    / _ \      https://www.metalab.csun.edu/
- |_|  |_| |___|   |_|   /_/ \_\
-    _       _        _     ___
-  _| |_    | |      /_\   | _ )
- |_   _|   | |__   / _ \  | _ \
-   |_|     |____| /_/ \_\ |___/
--->
 </body>
 </html>
