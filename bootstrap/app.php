@@ -2,11 +2,11 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
-    //
-}
+(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
+    dirname(__DIR__)
+))->bootstrap();
+
+date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +87,7 @@ $app->register(CSUNMetaLab\LumenProxyPass\Providers\ProxyPassServiceProvider::cl
 
 $app->configure('forcehttps');
 $app->register(CSUNMetaLab\LumenForceHttps\Providers\ForceHttpsServiceProvider::class);
+$app->register(Illuminate\Database\Eloquent\LegacyFactoryServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

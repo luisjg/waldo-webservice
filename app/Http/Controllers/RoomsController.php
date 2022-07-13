@@ -64,7 +64,7 @@ class RoomsController extends Controller
             $formattedData = File::get(storage_path('room/all-rooms.txt'));
             $formattedData = json_decode($formattedData);
             $status = $formattedData->status;
-            $process = new Process('php ../artisan update:room all > /dev/null &');
+            $process = new Process(['php', 'artisan', 'update:room all', '>', '/dev/null', '&']);
             $process->start();
         } else {
             $formattedData = formatAllRoomsCollection();
@@ -85,7 +85,7 @@ class RoomsController extends Controller
         if (File::exists(storage_path('room/'.$roomId.'.txt'))) {
             $formattedResponse = File::get(storage_path('room/'.$roomId.'.txt'));
             $formattedResponse = json_decode($formattedResponse);
-            $process = new Process('php ../artisan update:room ' . $roomId . ' > /dev/null &');
+            $process = new Process(['php', 'artisan', 'update:room '. $roomId, '>', '/dev/null', '&']);
             $process->start();
             return $this->sendResponse($formattedResponse, $formattedResponse->status);
         } else {
