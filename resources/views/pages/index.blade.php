@@ -20,7 +20,7 @@
 @endsection
 
 @section('description')
-    {{ env('APP_NAME') }} Web Service Documentation
+    {{ config('app.name') }} Web Service Documentation
 @endsection
 
 @section('content')

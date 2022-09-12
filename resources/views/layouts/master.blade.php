@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="@yield('description')">
-    <title>{{ env('APP_NAME') }} Web Service | @yield('title')</title>
+    <title>{{ config('app.name') }} Web Service | @yield('title')</title>
     <link rel="icon" href="//www.csun.edu/sites/default/themes/csun/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="{!! url('css/app.css') !!}">
     <link rel="stylesheet" href="{!! url('css/tomorrow.css.min') !!}">
@@ -29,7 +29,7 @@
     <nav class="navbar navbar-metaphor navbar-expand-md">
         <a href="{{ url('/') }}" class="navbar-brand">
             <span class="sr-only">CSUN Logo</span>
-            <span class="navbar-brand__subbrand">{{ env('APP_NAME') }}</span>
+            <span class="navbar-brand__subbrand">{{ config('app.name') }}</span>
         </a>
         <button type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
             <span class="navbar-toggler-icon"></span>
@@ -47,7 +47,7 @@
     </nav>
     <div class="hero">
         <div class="text-center">
-            <h1>{{ env('APP_NAME') }} Web Service</h1>
+            <h1>{{ config('app.name') }} Web Service</h1>
             <p>Delivering CSUN Room Location Information</p>
         </div>
     </div>
