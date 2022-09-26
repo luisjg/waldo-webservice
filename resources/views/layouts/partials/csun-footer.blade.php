@@ -22,7 +22,7 @@
             <img class="d-block mx-auto mx-md-0 img-fluid footer-metaphor__emblem mb-3 mb-md-0" src="//www.csun.edu/sites/default/themes/csun/images/footer-seal.png" alt="CSUN Emblem">
           </div>
           <div class="col-12 col-md-9">
-            <h6>{{ env('APP_NAME') }} Web Service</h6>
+            <h6>{{ config('app.name') }} Web Service</h6>
             <div>
               &copy; California State University, Northridge <br>
               18111 Nordhoff Street, Northridge, CA 91330 <br>

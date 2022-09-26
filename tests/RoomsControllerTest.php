@@ -14,6 +14,8 @@
  *  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Tests;
+
 use App\Classes\StatePlaneMapping;
 use App\Http\Controllers\RoomsController;
 
